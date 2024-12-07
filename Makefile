@@ -19,6 +19,7 @@ install-dependencies:
 	forge install OpenZeppelin/openzeppelin-contracts --no-commit
 
 
+# NETWORK_ARGS := --rpc-url $(RPC_URL) --account $(CAST_WALLET_PK_NAME) --sender $(SENDER_ADDRESS) --broadcast
 NETWORK_ARGS := --rpc-url $(RPC_URL) --account $(CAST_WALLET_PK_NAME) --sender $(SENDER_ADDRESS) --broadcast
 
 ifeq ($(findstring --network sepolia,$(ARGS)),--network sepolia)
@@ -44,3 +45,9 @@ run-unittests:
 verify-contract:
 	@echo "Verifying contract"
 	forge verify-contract 0x4A0F52080A880A95cF97a1ad590fd7b346b9927F script/DeployBasicNft.s.sol:DeployBasicNft --chain-id 11155111 --compiler-version 0.8.20
+
+deployMood:
+	@forge script script/DeployMoodNft.s.sol:DeployMoodNft $(NETWORK_ARGS)
+
+mintMoodNft:
+	@forge script script/Interactions.s.sol:MintMoodNft $(NETWORK_ARGS)
